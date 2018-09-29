@@ -15,23 +15,6 @@
 }
 
 
-
-.valueBox input {
-  height: 24px;
-  width: 100px;
-  background-color: transparent;
-  border: 1px solid black;
-  outline: none;
-  margin: 0;
-  box-sizing: border-box;
-  opacity: 0;
-
-}
-
-.valueBox:checked {
-  border: solid 2px white;
-}
-
 .leftColumn {
   position: relative;
   top: 7px;
