@@ -53,10 +53,10 @@ handleDeleted(){
 
 render() {
 
-  console.log(this.props);
+
 
   const {myRoutes, route, routeId, pitches, routeName, rating, location, routeList } = this.props;
-
+  console.log(route.firebaseId);
 
   let completedStyle = {
     backgroundImage: `url(${checkmark})`
@@ -106,6 +106,7 @@ render() {
                         firebaseId={route.firebaseId}
                         rating={rating}
                         onGradeModal={this.handleGradeModal}/>
+                        console.log(editModalVisible);
     } else if (myRouteCheck.includes(route.firebaseId)){
 
       gradeButton = <div onClick={()=> this.handleGradeModal()} className={styles.topButton1}><p><span className={styles.brightGreen}>Grade</span></p></div>

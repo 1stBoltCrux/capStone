@@ -168,7 +168,7 @@ class Menu extends React.Component {
           </div>
 
         </div>
-        <button onClick={(event)=>{ this.props.dispatch(handleSubmitRadio(event, this.state.grade, this.state.additionalGrade, this.props.firebaseId)), this.props.onHandleClick()}} type='submit' className={styles.okButton}> <img src={okButton}/></button>
+        <button onClick={(event)=>{ this.props.dispatch(handleSubmitRadio(event, this.state.grade, this.state.additionalGrade, this.props.firebaseId))}} type='submit' className={styles.okButton}> <img src={okButton}/></button>
         </form>
         {this.state.update}
       </div>
