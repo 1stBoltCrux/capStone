@@ -28,7 +28,7 @@
 
 }
 
-.valueBox:active {
+.valueBox:checked {
   border: solid 2px white;
 }
 
