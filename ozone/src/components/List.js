@@ -6,6 +6,7 @@ import ListItem from './ListItem.js';
 import { v4 } from 'uuid';
 
 class List extends React.Component {
+
   render() {
     const { routes, filteredList } = this.props
     let routeCondition = routes.slice();
@@ -13,7 +14,6 @@ class List extends React.Component {
       routeCondition = filteredList;
     }
     return (
-
       <div className={styles.listWrapper}>
         {routeCondition.map((route, key) =>
           <ListItem

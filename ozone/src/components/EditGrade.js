@@ -16,9 +16,12 @@ class EditGrade extends React.Component {
     }));
   }
   render()  {
+    console.log('edit grades props: ' + this.props.myList);
     let menuVisibility = null;
     if (this.state.isMenuHidden === false) {
-      menuVisibility = <Menu firebaseId={this.props.firebaseId}/>;
+      menuVisibility = <Menu
+        onHandleClick={this.handleClick}
+        firebaseId={this.props.firebaseId}/>;
     } else {
       menuVisibility = null;
     }
@@ -33,4 +36,6 @@ class EditGrade extends React.Component {
     );
   }
 }
+
+
 export default EditGrade;

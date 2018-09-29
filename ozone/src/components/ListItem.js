@@ -4,10 +4,24 @@ import styles from './listitem.css';
 import star from './../imgs/icon-star.svg'
 import {Link} from 'react-router-dom';
 import { deleteFromFirebase } from './../actions';
+import DetailPage from './DetailPage'
 /* global location */
 /* eslint no-restricted-globals: ["off", "location"] */
 
 class ListItem extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      detailPage: false
+    }
+  }
+
+  handleDetailPage = () => {
+    this.setState({
+      detailPage: !this.state.detailPage
+    })
+  }
 
   render() {
 
@@ -26,41 +40,44 @@ class ListItem extends React.Component {
     } else {
       styles.itemType = styles.mixed
     }
-    return (
-      <Link to={{
-        pathname: '/detailpage',
-        state: {
-          route: this.props.route,
-          name: this.props.name,
-          rating: this.props.rating,
-          location: this.props.location,
-          pitches: this.props.pitches,
-          routeId: this.props.routeId,
-          routeList: this.props.routeList,
-          myRoutes: this.props.myRoutes
-        }
+    if (!this.state.detailPage) {
+      return (
+        <div onClick={()=> this.handleDetailPage()}  className={styles.listItemWrapper}>
+          <div className={styles.itemType}></div>
+          <div className={styles.itemInfoBox}>
+            <div className={styles.itemInfo}>
+              <h3>{this.props.name}</h3>
+              <p> {this.props.rating} </p>
+              <p>{this.props.location}</p>
+              <div className={styles.starWrapper}>
+                {starArray.map((star, i)=>
 
-      }}><div  className={styles.listItemWrapper}>
-        <div className={styles.itemType}></div>
-        <div className={styles.itemInfoBox}>
-          <div className={styles.itemInfo}>
-            <h3>{this.props.name}</h3>
-            <p> {this.props.rating} </p>
-            <p>{this.props.location}</p>
-            <div className={styles.starWrapper}>
-              {starArray.map((star, i)=>
+                  <img src={star} key={i}/>
+                )}
 
-                <img src={star} key={i}/>
-              )}
-
+              </div>
             </div>
+            <div className={styles.expandButton}></div>
+
           </div>
-          <div className={styles.expandButton}></div>
 
-        </div>
+          </div>
+        );
 
-      </div></Link>
-    );
+    } else {
+      return(
+          <DetailPage
+            onDetailPage={this.handleDetailPage}
+            route={this.props.route}
+            routeName={this.props.name}
+            rating={this.props.rating}
+            location={this.props.location}
+            pitches={this.props.pitches}
+            routeId={this.props.routeId}
+            routeList={this.props.routeList}
+            myRoutes={this.props.myRoutes}/>
+      )
+    }
   }
 }
 

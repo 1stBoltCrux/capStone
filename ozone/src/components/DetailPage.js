@@ -53,7 +53,9 @@ handleDeleted(){
 
 render() {
 
-  const {myRoutes, route, routeId, pitches, name, rating, location, routeList } = this.props.location.state;
+  console.log(this.props);
+
+  const {myRoutes, route, routeId, pitches, routeName, rating, location, routeList } = this.props;
 
 
   let completedStyle = {
@@ -96,7 +98,7 @@ render() {
     editModalVisible = <Notes
       onNotesModal={this.handleNotesModal}
       firebaseId={route.firebaseId}
-      name={name}
+      routeName={route.name}
       notes={route.note}/>
 
     } else if (myRouteCheck.includes(route.firebaseId) && this.state.gradeModal) {
@@ -119,34 +121,39 @@ render() {
       editModalVisible = null;
     }
     return (
-      <div className={styles.detailPageWrapper}>
-        <div className={styles.detailInfoBox}>
-          <div className={styles.detail}><h3>{name}</h3></div>
-          <div className={styles.detail}><p>{route.type} - </p><p> - {rating}</p></div>
-          <div className={styles.detail}><p>{location}</p></div>
-          <div className={styles.detail}><p><span className={styles.brightGreen}>Pitches: {pitches}</span></p></div>
-          <div className={styles.starWrapper}>
-            {starArray.map((star, i)=>
-              <div className={styles.detail} key={i}><img src={star}/></div>
-            )}
-          </div>
-          <div className={styles.detail} className={styles.infoButton}><a href={route.url}> <button>More Info</button></a></div>
-        </div>
-        <div style={routeImage} className={styles.routeImage}>
-        </div>
-        <div className={styles.buttonBackdrop}>
-          <div className={styles.topButtons}>
-            {gradeButton}
-            {completeButton}
-            {notesButton}
-          </div>
-          <div className={styles.bottomButtons}>
-            {deleteButton}
-            {addToListButton}
-          </div>
+      <div className={styles.detailPageBackdrop}>
+        <div className={styles.modalOverlay}>
+          <div className={styles.detailPageWrapper}>
+            <Nav/>
+            <div className={styles.detailInfoBox}>
+              <div className={styles.detail}><h3>{routeName}</h3></div>
+              <div className={styles.detail}><p>{route.type} - </p><p> - {rating}</p></div>
+              <div className={styles.detail}><p>{location}</p></div>
+              <div className={styles.detail}><p><span className={styles.brightGreen}>Pitches: {pitches}</span></p></div>
+              <div className={styles.starWrapper}>
+                {starArray.map((star, i)=>
+                  <div className={styles.detail} key={i}><img src={star}/></div>
+                )}
+              </div>
+              <div className={styles.detail} className={styles.infoButton}><a href={route.url}> <button>More Info</button></a></div>
+            </div>
+            <div style={routeImage} className={styles.routeImage}>
+            </div>
+            <div className={styles.buttonBackdrop}>
+              <div className={styles.topButtons}>
+                {gradeButton}
+                {completeButton}
+                {notesButton}
+              </div>
+              <div className={styles.bottomButtons}>
+                {deleteButton}
+                {addToListButton}
+              </div>
 
+            </div>
+            {editModalVisible}
+          </div>
         </div>
-        {editModalVisible}
       </div>
     );
   }

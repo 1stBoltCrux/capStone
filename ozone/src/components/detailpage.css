@@ -3,9 +3,34 @@
   margin: 0 4% 0 4%;
 }
 
+.detailPageBackdrop {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.modalOverlay {
+  z-index: 1;
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+}
+
 .detailPageWrapper {
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  position: relative;
+  overflow: auto;
+  height: 100%;
   width: 350px;
-  margin: auto;
 }
 
 .detailInfoBox h3 {
@@ -185,4 +210,8 @@
 .bottomButton1 p, .bottomButton2 p, .topButton1 p, .topButton2 p, .topButton3 p {
   position: relative;
   top: 20%;
+}
+
+.testing {
+  display: none;
 }

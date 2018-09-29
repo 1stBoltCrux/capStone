@@ -112,3 +112,7 @@
     transform: scale(1.06);
   }
 }
+
+.testingHidden {
+  display: none;
+}
