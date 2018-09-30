@@ -14,8 +14,9 @@ class MyList extends React.Component {
     }
     return (
       <div className={styles.listWrapper}>
-        {this.props.myRoutes.map((route, key) =>
+        {this.props.myRoutes.map((route) =>
           <ListItem
+            modalState={this.props.modalState}
             type={route.type}
             route={route}
           pitches={route.pitches}

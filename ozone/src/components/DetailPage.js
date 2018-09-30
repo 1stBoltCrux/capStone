@@ -19,9 +19,10 @@ constructor(props){
   super(props);
   this.state = {
     notesModal: false,
-    completed: false,
+    completed: this.props.route.complete,
     deleted: false,
-    gradeModal: false
+    gradeModal: false,
+    modalOpen: false
   }
   this.handleNotesModal = this.handleNotesModal.bind(this);
   this.handleGradeModal = this.handleGradeModal.bind(this);
@@ -40,9 +41,12 @@ handleGradeModal(){
 }
 
 handleCompleted(){
-  this.setState(prevState => ({
-    completed: true
-  }));
+  this.setState({
+    completed: !this.state.completed
+  }, () => {
+      this.props.dispatch(handleSubmitComplete(this.props.route.firebaseId, this.state.completed))
+  })
+
 }
 
 handleDeleted(){
@@ -56,8 +60,10 @@ render() {
 
 
   const {myRoutes, route, routeId, pitches, routeName, rating, location, routeList } = this.props;
-  console.log(route.firebaseId);
-
+  console.log(this.props);
+  if (this.props.routeId === this.props.modalState.modalOpen) {
+    console.log('hooray');
+}
   let completedStyle = {
     backgroundImage: `url(${checkmark})`
   }
@@ -111,7 +117,7 @@ render() {
 
       gradeButton = <div onClick={()=> this.handleGradeModal()} className={styles.topButton1}><p><span className={styles.brightGreen}>Grade</span></p></div>
 
-      completeButton = <div style={completedStyle} onClick={()=>{ this.handleCompleted(); this.props.dispatch(handleSubmitComplete(route.firebaseId))}} className={styles.topButton2}><p><span className={styles.brightGreen}>Complete</span></p></div>
+      completeButton = <div style={completedStyle} onClick={()=> this.handleCompleted()} className={styles.topButton2}><p><span className={styles.brightGreen}>Complete</span></p></div>
 
       notesButton = <div onClick={()=>this.handleNotesModal()} className={styles.topButton3}><p><span className={styles.brightGreen}>Notes</span></p></div>
 
@@ -121,6 +127,8 @@ render() {
     } else {
       editModalVisible = null;
     }
+
+    if (this.props.routeId === this.props.modalState.modalOpen) {
     return (
       <div className={styles.detailPageBackdrop}>
         <div className={styles.modalOverlay}>
@@ -157,6 +165,11 @@ render() {
         </div>
       </div>
     );
+  } else {
+    return (
+      null
+    )
+  }
   }
 }
 
@@ -164,7 +177,8 @@ const mapStateToProps = state => {
   return {
     fullList: state.fullList,
     myList: state.myList,
-    filteredList: state.filteredList
+    filteredList: state.filteredList,
+    modalState: state.modalState
   }
 }
 

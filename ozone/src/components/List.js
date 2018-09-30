@@ -15,7 +15,7 @@ class List extends React.Component {
     }
     return (
       <div className={styles.listWrapper}>
-        {routeCondition.map((route, key) =>
+        {routeCondition.map((route) =>
           <ListItem
             myRoutes={this.props.myRoutes}
             routeList={this.props.routes}

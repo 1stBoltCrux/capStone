@@ -1,16 +1,29 @@
 .valueBox input {
+  z-index: 2;
   height: 24px;
-  width: 100px;
-  /* background-color: transparent; */
-  border: 1px solid black;
+  width: 95px;
+  background-color: transparent;
   /* outline: none; */
   margin: 0;
   box-sizing: border-box;
-  /* opacity: 0; */
+  opacity: 0;
 }
 
-.valueBox:checked {
+.valueBox {
+  margin-left: 4px;
+  max-width: 95px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.valueBox p {
+  position: relative;
+  right: 30px;
+}
+
+.valueBox input:hover {
+  cursor: pointer;
 }
 
 .valueBox input:checked {

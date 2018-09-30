@@ -39,6 +39,13 @@ export function addMyListToFirebase(myList){
   }
 }
 
+export function detailModal(routeId){
+  return {
+    type: c.HANDLE_DETAIL_MODAL,
+    payload: routeId
+  }
+}
+
 
 
 export function addToList(route, myList){
@@ -78,9 +85,9 @@ export function handleSubmitNotes(_note, key){
   }
 }
 
-export function handleSubmitComplete(key){
+export function handleSubmitComplete(key, complete){
   myListRef.child(key).update({
-    complete: 'complete'
+    complete: complete
   })
   return {
     type: c.COMPLETE

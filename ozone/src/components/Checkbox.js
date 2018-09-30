@@ -23,7 +23,9 @@ class Checkbox extends Component {
     if(this.checkRef.current){
       if(this.checkRef.current.checked){
         isChecked = {
-          border: '1px solid white'
+          border: '2px solid white',
+          maxWidth: 92,
+          maxHeight: 20
         }
       }
     }
@@ -38,6 +40,7 @@ class Checkbox extends Component {
           // checked={this.props.value === this.props.value}
           onChange={()=> {this.props.onHandleChange(this.props.value); this.handleChecked();}}
         />
+        <p>{this.props.value}</p>
       </div>
     )
   }

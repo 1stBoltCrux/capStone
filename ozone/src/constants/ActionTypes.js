@@ -6,3 +6,4 @@ export const SET_MY_LIST = 'SET_MY_LIST';
 export const NOTES = 'NOTES';
 export const COMPLETE = 'COMPLETE';
 export const CHANGE_GRADE = 'CHANGE_GRADE'
+export const HANDLE_DETAIL_MODAL = 'HANDLE_DETAIL_MODAL'

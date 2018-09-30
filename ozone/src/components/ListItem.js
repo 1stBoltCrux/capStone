@@ -5,6 +5,9 @@ import star from './../imgs/icon-star.svg'
 import {Link} from 'react-router-dom';
 import { deleteFromFirebase } from './../actions';
 import DetailPage from './DetailPage'
+import {v4} from 'uuid'
+import { detailModal } from './../actions/index'
+import { connect } from 'react-redux';
 /* global location */
 /* eslint no-restricted-globals: ["off", "location"] */
 
@@ -24,7 +27,7 @@ class ListItem extends React.Component {
   }
 
   render() {
-
+    console.log(this.props);
     let starArray = [];
     let starCounter = parseInt(this.props.route.stars);
     while (starCounter > 0) {
@@ -40,9 +43,12 @@ class ListItem extends React.Component {
     } else {
       styles.itemType = styles.mixed
     }
-    if (!this.state.detailPage) {
+
       return (
-        <div onClick={()=> this.handleDetailPage()}  className={styles.listItemWrapper}>
+        <div>
+
+
+        <div onClick={()=> this.props.dispatch(detailModal(this.props.routeId))}  className={styles.listItemWrapper}>
           <div className={styles.itemType}></div>
           <div className={styles.itemInfoBox}>
             <div className={styles.itemInfo}>
@@ -52,7 +58,7 @@ class ListItem extends React.Component {
               <div className={styles.starWrapper}>
                 {starArray.map((star, i)=>
 
-                  <img src={star} key={i}/>
+                  <img src={star} key={v4() }/>
                 )}
 
               </div>
@@ -62,10 +68,6 @@ class ListItem extends React.Component {
           </div>
 
           </div>
-        );
-
-    } else {
-      return(
           <DetailPage
             onDetailPage={this.handleDetailPage}
             route={this.props.route}
@@ -76,9 +78,12 @@ class ListItem extends React.Component {
             routeId={this.props.routeId}
             routeList={this.props.routeList}
             myRoutes={this.props.myRoutes}/>
-      )
-    }
+        </div>
+        );
+
+
+
   }
 }
 
-export default ListItem;
+export default connect()(ListItem)

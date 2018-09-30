@@ -1,5 +1,4 @@
 
-
 .gradeMenuWrapper {
   display: flex;
   flex-direction: column;
@@ -9,20 +8,21 @@
 
 .gradeMenu {
   display: flex;
-  height: 235px;
+  height: 240px;
   width: 200px;
-  background-image: url(./../imgs/top-grade-dropdown.svg);
+  background-color: #9dd038
 }
 
 
 .leftColumn {
   position: relative;
-  top: 7px;
+  top: 10px;
+  right: 4px;
 }
 
 .rightColumn {
   position: relative;
-  top: 7px;
+  top: 10px;
 }
 
 .okButton {
