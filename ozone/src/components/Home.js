@@ -4,9 +4,26 @@ import styles from './home.css';
 import { connect } from 'react-redux';
 import { handleSubmitClick } from './../actions'
 import { Link } from 'react-router-dom';
+import { googleSignIn, signInRedirectComplete } from './../actions'
+
 
 
 class Home extends React.Component {
+  constructor(props){
+    super(props)
+  }
+
+  componentDidMount(){
+if (Object.keys(this.props.userList).length > 0 ) {
+  console.log('its runnin ho!');
+  setTimeout(()=> {
+    this.props.dispatch(signInRedirectComplete(this.props.userList))
+  }, 2000)
+
+
+
+}
+  }
 
   render () {
 
@@ -42,16 +59,9 @@ class Home extends React.Component {
           </div>
           <div onClick={()=> this.props.dispatch(handleSubmitClick(this._name.value, this._type.value, this._grade.value, routes))} className={styles.filterRouteButton}><p>Filter Route List</p></div>
 
-          {/* <div className={styles.filterMyList}>
-            <div className={styles.filterRoute}>
-              <div className={styles.filterBox} id="filter-title"><p>Filter My List</p></div>
-            <div className={styles.filterBox}><p>name:</p><input type='text'></input></div>
-            <div className={styles.filterBox}><p>grade:</p><select></select></div>
-            <div className={styles.filterBox}><p>type:</p><select></select></div>
-          </div>
-          </div>
-          <div className={styles.filterRouteButton}><p>Filter My List</p></div> */}
         </div>
+
+    <button onClick={() => this.props.dispatch(googleSignIn())}>CLICK ME</button>
 
     </div>
     )

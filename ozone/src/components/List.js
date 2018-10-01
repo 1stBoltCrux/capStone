@@ -17,6 +17,7 @@ class List extends React.Component {
       <div className={styles.listWrapper}>
         {routeCondition.map((route) =>
           <ListItem
+            modalState={this.props.modalState}
             myRoutes={this.props.myRoutes}
             routeList={this.props.routes}
             type={route.type}

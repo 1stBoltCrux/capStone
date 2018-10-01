@@ -7,3 +7,4 @@ export const NOTES = 'NOTES';
 export const COMPLETE = 'COMPLETE';
 export const CHANGE_GRADE = 'CHANGE_GRADE'
 export const HANDLE_DETAIL_MODAL = 'HANDLE_DETAIL_MODAL'
+export const USER_RECEIVED = 'USER_RECEIVED'

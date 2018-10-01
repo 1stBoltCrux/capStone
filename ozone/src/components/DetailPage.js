@@ -138,7 +138,7 @@ render() {
                   <div className={styles.detail} key={i}><img src={star}/></div>
                 )}
               </div>
-              <div className={styles.detail} className={styles.infoButton}><a href={route.url}> <button>More Info</button></a></div>
+              <div className={styles.detail} className={styles.infoButton}><a href={route.url}  target="_blank" > <button>More Info</button></a></div>
             </div>
             <div style={routeImage} className={styles.routeImage}>
             </div>

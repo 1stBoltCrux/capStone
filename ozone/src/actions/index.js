@@ -5,6 +5,72 @@ const { c, firebaseConfig } = constants;
 firebase.initializeApp(firebaseConfig);
 const fullListRef = firebase.database().ref('fullList');
 const myListRef = firebase.database().ref('myList');
+const userRef = firebase.database().ref('users')
+
+export function googleSignIn(){
+  return function(dispatch){
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithRedirect(provider).then(function(result) {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  }
+}
+
+export function signInRedirectComplete(userList){
+  return function(dispatch) {
+    firebase.auth().getRedirectResult().then(function(result) {
+      let userIdArray = [];
+      Object.keys(userList).forEach((userKey) => {
+        userIdArray.push(userList[userKey].uid)
+      })
+      if (!userIdArray.includes(result.user.uid)) {
+        console.log(userIdArray);
+        console.log('new user detected');
+
+        var newUser = {
+          name: result.user.displayName,
+          email: result.user.email,
+          uid: result.user.uid
+        }
+        userRef.push(newUser)
+      } else {
+        return;
+      }
+
+    }).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // The email of the user's account used.
+      var email = error.email;
+      // The firebase.auth.AuthCredential type that was used.
+      var credential = error.credential;
+      // ...
+    });
+  }
+}
+
+export function watchFireBaseUsersRef() {
+  console.log('firing');
+  return function (dispatch) {
+    userRef.on('value', data => {
+      let userList = data.val()
+      dispatch(addUserListToFirebase(userList))
+    })
+  }
+}
 
 export function watchFireBaseFullListRef() {
   return function(dispatch) {
@@ -19,6 +85,13 @@ export function addListToFirebase(list){
   return {
     type: c.RECEIVED,
     fullList: list
+  }
+}
+
+export function addUserListToFirebase(userList){
+  return {
+    type: c.USER_RECEIVED,
+    userList: userList
   }
 }
 
