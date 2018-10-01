@@ -27,6 +27,7 @@ class EditGrade extends React.Component {
     })
   }
 
+
   render()  {
 
     console.log('edit grades props: ' + this.props.rating);

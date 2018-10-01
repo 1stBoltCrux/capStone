@@ -143,11 +143,14 @@ export function handleSubmitRadio(event, grade, additionalGrade, key){
     if (additionalGrade === null){
       additionalGrade = '';
     }
+    if (grade !== null) {
+
+
     const newGrade = grade + additionalGrade;
     myListRef.child(key).update({
       rating: newGrade
     })
-
+}
     return {
       type: c.CHANGE_GRADE,
     }

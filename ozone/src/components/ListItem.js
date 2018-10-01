@@ -27,7 +27,6 @@ class ListItem extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     let starArray = [];
     let starCounter = parseInt(this.props.route.stars);
     while (starCounter > 0) {

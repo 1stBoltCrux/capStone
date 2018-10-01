@@ -56,14 +56,8 @@ handleDeleted(){
 }
 
 render() {
-
-
-
   const {myRoutes, route, routeId, pitches, routeName, rating, location, routeList } = this.props;
-  console.log(this.props);
-  if (this.props.routeId === this.props.modalState.modalOpen) {
-    console.log('hooray');
-}
+
   let completedStyle = {
     backgroundImage: `url(${checkmark})`
   }

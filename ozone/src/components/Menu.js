@@ -21,12 +21,14 @@ class Menu extends React.Component {
   }
 
   handleChangeGrade(value){
+
     this.setState({
       grade: value
     })
   }
 
   handleChangeadditionalGrade(value){
+
     this.setState({
       additionalGrade: value
     })
