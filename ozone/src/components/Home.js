@@ -15,7 +15,7 @@ class Home extends React.Component {
 
   componentDidMount(){
 setTimeout(()=>{
-
+  // watchFireBaseMyListRef2()
   addUserRouteList(this.props.userList, this.props.myRoutes)
 }, 2000)
 if (Object.keys(this.props.userList).length > 0 ) {

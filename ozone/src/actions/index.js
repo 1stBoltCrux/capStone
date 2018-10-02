@@ -82,7 +82,7 @@ export function addUserRouteList(userList, myRoutes){
       let newestRef = newRef.child('user');
       console.log(newestRef);
       let finalRef = newestRef.child('userList')
-      finalRef.child(firebaseId).set({route})
+      finalRef.child(firebaseId).set({route })
 
     })
   }
@@ -103,30 +103,32 @@ export function addUserListToFirebase(userList){
   }
 }
 
-export function watchFireBaseMyListRef2(){
-return function(dispatch){
+export function watchFireBaseMyListRef(){
+
+return function(dispatch) {
 
   var user = firebase.auth().currentUser;
   if (user !== null){
     let newRef = userRef.child(user.uid)
     newRef.on('value', data => {
-      console.log(data.val().user.userList);
+      let myList = data.val().user.userList
+      dispatch(addMyListToFirebase(myList));
     })
   }
 }
 
 }
 
-export function watchFireBaseMyListRef(route){
-  return function(dispatch) {
-    myListRef.on('value', data => {
-      let myList = data.val()
-      console.log(myList);
-      dispatch(addMyListToFirebase(myList))
-      // addToList(route, myList)
-    })
-  }
-}
+// export function watchFireBaseMyListRef(route){
+//   return function(dispatch) {
+//     myListRef.on('value', data => {
+//       let myList = data.val()
+//       console.log(myList);
+//       dispatch(addMyListToFirebase(myList))
+//       // addToList(route, myList)
+//     })
+//   }
+// }
 
 export function addMyListToFirebase(myList){
   return {
@@ -145,14 +147,27 @@ export function detailModal(routeId){
 
 
 export function addToList(route, myList){
-
+  var user = firebase.auth().currentUser;
   let checkFireId = [];
   myList.forEach((routeCheck) => {
     checkFireId.push(routeCheck.id)
   })
 
-  if (checkFireId.includes(route.id) === false){
-    myListRef.push(route);
+  if (checkFireId.includes(route.id) === false && user !== null){
+
+    myList.forEach((route) =>{
+      let firebaseId = route.firebaseId
+      console.log(route);
+      let newRef = userRef.child(user.uid)
+      console.log(newRef);
+      let newestRef = newRef.child('user');
+      console.log(newestRef);
+      let finalRef = newestRef.child('userList')
+      finalRef.child(firebaseId).set({route})
+
+    })
+
+    // myListRef.push(route);
 
   } else {
 
