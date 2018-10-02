@@ -185,7 +185,16 @@ export function addToList(route, myList){
 }
 
 export function deleteFromFirebase(key, myRoutes){
-      myListRef.child(key).remove();
+  console.log(key);
+
+  var user = firebase.auth().currentUser;
+  if (user !== null){
+    let newRef = userRef.child(user.uid)
+    let newestRef = newRef.child('user');
+    let finalRef = newestRef.child('userList')
+    finalRef.child(key).remove()
+
+}
 }
 
 export function handleSubmitNotes(_note, key){
