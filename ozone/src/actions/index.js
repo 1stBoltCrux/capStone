@@ -2,15 +2,21 @@ import constants from './../constants';
 import firebase from 'firebase';
 const { c, firebaseConfig } = constants;
 
+
+
 firebase.initializeApp(firebaseConfig);
 const fullListRef = firebase.database().ref('fullList');
 const myListRef = firebase.database().ref('myList');
 const userRef = firebase.database().ref('users')
 
+
+
 export function googleSignIn(){
   return function(dispatch){
+
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithRedirect(provider).then(function(result) {
+      console.log(result);
     }).catch(function(error) {
   console.log(error);
     });
@@ -19,7 +25,9 @@ export function googleSignIn(){
 
 export function signInRedirectComplete(userList){
   return function(dispatch) {
+
     firebase.auth().getRedirectResult().then(function(result) {
+
       let userIdArray = [];
       Object.keys(userList).forEach((userKey) => {
         userIdArray.push(userList[userKey].user.uid)
@@ -102,22 +110,33 @@ export function addUserListToFirebase(userList){
 }
 
 export function watchFireBaseMyListRef(){
-
 return async function(dispatch) {
   let promise = new Promise((resolve, reject)=>{
     setTimeout(()=>{
       resolve(firebase.auth().currentUser)
-    }, 1000)
+    }, 100)
   })
   let result = await promise;
-  var user = firebase.auth().currentUser
-  if (user !== null){
-    let newRef = userRef.child(user.uid)
-    newRef.on('value', data => {
-      let myList = data.val().user.userList
-      dispatch(addMyListToFirebase(myList));
-    })
-  }
+
+ await firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      let newRef = userRef.child(user.uid)
+      newRef.on('value', data => {
+        let myList = data.val().user.userList
+        dispatch(addMyListToFirebase(myList));
+        firebase.auth().onAuthStateChanged((user) => {
+          console.log(user);
+          dispatch(addMyListToFirebase)
+        })
+      })
+    }
+  })
+  // let user = result;
+  // console.log(user);
+  // if (user !== null){
+    console.log(result);
+
+  // }
 }
 
 }
@@ -207,7 +226,6 @@ export function handleSubmitNotes(_note, key){
     finalRef.child(key).update({
       note: _note.value
     })
-
 }
 
   return {

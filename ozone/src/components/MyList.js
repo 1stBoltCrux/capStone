@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import styles from './list.css';
 import Nav from './Nav.js';
+import { connect } from 'react-redux';
 import ListItem from './ListItem.js';
 import { v4 } from 'uuid';
 import EmptyList from './EmptyList.js'
+import { watchFireBaseMyListRef } from './../actions'
 
 class MyList extends React.Component {
 
@@ -38,4 +40,4 @@ class MyList extends React.Component {
   }
 }
 
-export  default MyList;
+export  default connect()(MyList);

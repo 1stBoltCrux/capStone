@@ -3,7 +3,7 @@ import ReactDom from 'react-dom';
 import styles from './nav.css'
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux'
-import { emptyArray, detailModal } from './../actions';
+import { emptyArray, detailModal} from './../actions';
 
 class List extends React.Component {
   render() {
