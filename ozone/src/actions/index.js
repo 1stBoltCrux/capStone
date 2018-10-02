@@ -72,18 +72,18 @@ export function watchFireBaseFullListRef() {
 }
 
 export function addUserRouteList(userList, myRoutes){
-  console.log('addUserToureList --- ' + myRoutes);
-  var user = firebase.auth().currentUser;
-  if (user !== null){
-    myRoutes.forEach((route) =>{
-      let firebaseId = route.firebaseId
-      let newRef = userRef.child(user.uid)
-      let newestRef = newRef.child('user');
-      let finalRef = newestRef.child('userList')
-      finalRef.child(firebaseId).set({route})
-
-    })
-  }
+  // console.log('addUserToureList --- ' + myRoutes);
+  // var user = firebase.auth().currentUser;
+  // if (user !== null){
+  //   myRoutes.forEach((route) =>{
+  //     let firebaseId = route.firebaseId
+  //     let newRef = userRef.child(user.uid)
+  //     let newestRef = newRef.child('user');
+  //     let finalRef = newestRef.child('userList')
+  //     finalRef.child(firebaseId).set({route})
+  //
+  //   })
+  // }
 
 }
 
@@ -199,9 +199,17 @@ export function deleteFromFirebase(key, myRoutes){
 
 export function handleSubmitNotes(_note, key){
 
-  myListRef.child(key).update({
-    note: _note.value
-  })
+  var user = firebase.auth().currentUser;
+  if (user !== null){
+    let newRef = userRef.child(user.uid)
+    let newestRef = newRef.child('user');
+    let finalRef = newestRef.child('userList')
+    finalRef.child(key).update({
+      note: _note.value
+    })
+
+}
+
   return {
     type: c.NOTES,
     payload: _note
@@ -209,9 +217,16 @@ export function handleSubmitNotes(_note, key){
 }
 
 export function handleSubmitComplete(key, complete){
-  myListRef.child(key).update({
-    complete: complete
-  })
+  var user = firebase.auth().currentUser;
+  if (user !== null){
+    let newRef = userRef.child(user.uid)
+    let newestRef = newRef.child('user');
+    let finalRef = newestRef.child('userList')
+    finalRef.child(key).update({
+      complete: complete
+    })
+  }
+
   return {
     type: c.COMPLETE
   }
@@ -253,8 +268,6 @@ export function handleSubmitComplete(key, complete){
    }
 }
 
-
-
 export function emptyArray() {
   return {
     type: c.EMPTY_ARRAY
@@ -270,9 +283,15 @@ export function handleSubmitRadio(event, grade, additionalGrade, key){
 
 
     const newGrade = grade + additionalGrade;
-    myListRef.child(key).update({
-      rating: newGrade
-    })
+    var user = firebase.auth().currentUser;
+    if (user !== null){
+      let newRef = userRef.child(user.uid)
+      let newestRef = newRef.child('user');
+      let finalRef = newestRef.child('userList')
+      finalRef.child(key).update({
+        rating: newGrade
+      })
+    }
 }
     return {
       type: c.CHANGE_GRADE,
