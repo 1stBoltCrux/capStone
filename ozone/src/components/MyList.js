@@ -7,7 +7,11 @@ import { v4 } from 'uuid';
 import EmptyList from './EmptyList.js'
 
 class MyList extends React.Component {
+
   render() {
+      this.props.myRoutes.forEach((route)=>{
+        console.log(route.route);
+      })
     let emptyList = null;
     if (this.props.myRoutes.length <= 0) {
       emptyList = <EmptyList/>

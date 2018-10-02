@@ -82,7 +82,7 @@ export function addUserRouteList(userList, myRoutes){
       let newestRef = newRef.child('user');
       console.log(newestRef);
       let finalRef = newestRef.child('userList')
-      finalRef.child(firebaseId).set({route })
+      finalRef.child(firebaseId).set({route})
 
     })
   }
@@ -105,13 +105,22 @@ export function addUserListToFirebase(userList){
 
 export function watchFireBaseMyListRef(){
 
-return function(dispatch) {
-
-  var user = firebase.auth().currentUser;
+return async function(dispatch) {
+  let promise = new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+      resolve(firebase.auth().currentUser)
+    }, 1000)
+  })
+  let result = await promise;
+  console.log(result);
+  console.log('watchFireBaseMyListRef - fired');
+  var user = firebase.auth().currentUser
+  console.log(user);
   if (user !== null){
     let newRef = userRef.child(user.uid)
     newRef.on('value', data => {
       let myList = data.val().user.userList
+      console.log(myList);
       dispatch(addMyListToFirebase(myList));
     })
   }
@@ -163,7 +172,7 @@ export function addToList(route, myList){
       let newestRef = newRef.child('user');
       console.log(newestRef);
       let finalRef = newestRef.child('userList')
-      finalRef.child(firebaseId).set({route})
+      finalRef.child(route.id).set(route)
 
     })
 

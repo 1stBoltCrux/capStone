@@ -11,6 +11,7 @@ const MyListReducer = (state = [], action) => {
       });
       if (newState.length <= 0) {
         newState.push(action.route)
+
       } else if (checkId.includes(action.route.id)){
         return newState;
       } else {
@@ -30,6 +31,7 @@ const MyListReducer = (state = [], action) => {
     case c.SET_MY_LIST: {
         const myList = [];
         if (action.payload){
+          console.log(action.payload);
           Object.keys(action.payload).forEach((key) => {
             //this is where i get my firebase id in myList
             const newObject = Object.assign(action.payload[key], { firebaseId : key});

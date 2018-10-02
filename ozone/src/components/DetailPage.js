@@ -57,7 +57,7 @@ handleDeleted(){
 
 render() {
   const {myRoutes, route, routeId, pitches, routeName, rating, location, routeList } = this.props;
-
+  console.log(route);
   let completedStyle = {
     backgroundImage: `url(${checkmark})`
   }
