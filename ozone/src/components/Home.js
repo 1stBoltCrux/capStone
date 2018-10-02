@@ -4,7 +4,7 @@ import styles from './home.css';
 import { connect } from 'react-redux';
 import { handleSubmitClick } from './../actions'
 import { Link } from 'react-router-dom';
-import { googleSignIn, signInRedirectComplete } from './../actions'
+import { googleSignIn, signInRedirectComplete, addUserRouteList } from './../actions'
 
 
 
@@ -14,11 +14,12 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
+addUserRouteList(this.props.userList,)
 if (Object.keys(this.props.userList).length > 0 ) {
   console.log('its runnin ho!');
   setTimeout(()=> {
     this.props.dispatch(signInRedirectComplete(this.props.userList))
-  }, 2000)
+  }, 100)
 
 
 
@@ -62,6 +63,7 @@ if (Object.keys(this.props.userList).length > 0 ) {
         </div>
 
     <button onClick={() => this.props.dispatch(googleSignIn())}>CLICK ME</button>
+    <button onClick={()=> this.props.dispatch(addUserRouteList())}>ClICK ME TO UPDATE USER ROUTE LIST</button>
 
     </div>
     )

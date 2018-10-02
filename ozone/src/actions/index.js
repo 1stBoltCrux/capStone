@@ -11,19 +11,8 @@ export function googleSignIn(){
   return function(dispatch){
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithRedirect(provider).then(function(result) {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
-      // The signed-in user info.
-      var user = result.user;
     }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
+  console.log(error);
     });
   }
 }
@@ -36,15 +25,16 @@ export function signInRedirectComplete(userList){
         userIdArray.push(userList[userKey].uid)
       })
       if (!userIdArray.includes(result.user.uid)) {
-        console.log(userIdArray);
-        console.log('new user detected');
 
         var newUser = {
           name: result.user.displayName,
           email: result.user.email,
-          uid: result.user.uid
+          uid: result.user.uid,
+          userList: ''
         }
-        userRef.push(newUser)
+        userRef.child(result.user.uid).set({
+          user: newUser
+        })
       } else {
         return;
       }
@@ -79,6 +69,19 @@ export function watchFireBaseFullListRef() {
       dispatch(addListToFirebase(list))
     })
   }
+}
+
+export function addUserRouteList(userList){
+
+  console.log(userList);
+  var user = firebase.auth().currentUser;
+
+  if (user !== null){
+    console.log(userList[user.uid]);
+    let newRef = userRef.child(user.uid)
+    newRef.child('user').update({userList: 'again'});
+  }
+
 }
 
 export function addListToFirebase(list){
