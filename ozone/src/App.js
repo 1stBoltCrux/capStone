@@ -33,7 +33,8 @@ class App extends Component {
             <Switch>
               <Route path="/myList" exact component={()=> <MyList myRoutes={myRoutes} modalState={modalState}/> }/>
               <Route path="/" exact component={()=><Home routes={routes}
-              userList={userList} />}/>
+              userList={userList}
+              myRoutes={myRoutes} />}/>
               <Route path="/list" render={()=> <List modalState={modalState} myRoutes={myRoutes} routes={routes} filteredList={filteredList}/>}/>
               <Route path ="/detailpage" exact component={DetailPage}/>
               <Route path ="/editmodal" exact component={EditModal}/>

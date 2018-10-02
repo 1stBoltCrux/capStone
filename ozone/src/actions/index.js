@@ -22,7 +22,7 @@ export function signInRedirectComplete(userList){
     firebase.auth().getRedirectResult().then(function(result) {
       let userIdArray = [];
       Object.keys(userList).forEach((userKey) => {
-        userIdArray.push(userList[userKey].uid)
+        userIdArray.push(userList[userKey].user.uid)
       })
       if (!userIdArray.includes(result.user.uid)) {
 
@@ -71,15 +71,12 @@ export function watchFireBaseFullListRef() {
   }
 }
 
-export function addUserRouteList(userList){
-
-  console.log(userList);
+export function addUserRouteList(userList, myRoutes){
   var user = firebase.auth().currentUser;
-
   if (user !== null){
-    console.log(userList[user.uid]);
     let newRef = userRef.child(user.uid)
-    newRef.child('user').update({userList: 'again'});
+    console.log(newRef);
+    newRef.child('user').update({userList: myRoutes});
   }
 
 }
@@ -98,10 +95,25 @@ export function addUserListToFirebase(userList){
   }
 }
 
+export function watchFireBaseMyListRef2(){
+return function(dispatch){
+
+  var user = firebase.auth().currentUser;
+  if (user !== null){
+    let newRef = userRef.child(user.uid)
+    newRef.on('value', data => {
+      console.log(data.val().user.userList);
+    })
+  }
+}
+
+}
+
 export function watchFireBaseMyListRef(route){
   return function(dispatch) {
     myListRef.on('value', data => {
       let myList = data.val()
+      console.log(myList);
       dispatch(addMyListToFirebase(myList))
       // addToList(route, myList)
     })

@@ -4,7 +4,7 @@ import styles from './home.css';
 import { connect } from 'react-redux';
 import { handleSubmitClick } from './../actions'
 import { Link } from 'react-router-dom';
-import { googleSignIn, signInRedirectComplete, addUserRouteList } from './../actions'
+import { googleSignIn, signInRedirectComplete, addUserRouteList, watchFireBaseMyListRef2 } from './../actions'
 
 
 
@@ -14,17 +14,15 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
-addUserRouteList(this.props.userList,)
+
+addUserRouteList(this.props.userList, this.props.myRoutes)
 if (Object.keys(this.props.userList).length > 0 ) {
-  console.log('its runnin ho!');
   setTimeout(()=> {
     this.props.dispatch(signInRedirectComplete(this.props.userList))
-  }, 100)
+  }, 2000)
 
-
-
-}
   }
+}
 
   render () {
 
