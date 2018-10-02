@@ -74,9 +74,17 @@ export function watchFireBaseFullListRef() {
 export function addUserRouteList(userList, myRoutes){
   var user = firebase.auth().currentUser;
   if (user !== null){
-    let newRef = userRef.child(user.uid)
-    console.log(newRef);
-    newRef.child('user').update({userList: myRoutes});
+    myRoutes.forEach((route) =>{
+      let firebaseId = route.firebaseId
+      console.log(route);
+      let newRef = userRef.child(user.uid)
+      console.log(newRef);
+      let newestRef = newRef.child('user');
+      console.log(newestRef);
+      let finalRef = newestRef.child('userList')
+      finalRef.child(firebaseId).set({route})
+
+    })
   }
 
 }
