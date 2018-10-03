@@ -1,7 +1,7 @@
 import constants from './../constants';
 const { c } = constants
 
-const FullListReducer = (state = {}, action) => {
+const FullListReducer = (state = [], action) => {
   switch(action.type) {
     case c.RECEIVED: {
       const fullList = [];

@@ -25,6 +25,7 @@ class App extends Component {
     const filteredList = this.props.filteredList
     const modalState = this.props.modalState
     const userList = this.props.userList
+    const loginModalState = this.props.loginModalState
     return (
       <div className='main-wrapper'>
         <BrowserRouter>
@@ -34,7 +35,8 @@ class App extends Component {
               <Route path="/myList" exact component={()=> <MyList myRoutes={myRoutes} modalState={modalState}/> }/>
               <Route path="/" exact component={()=><Home routes={routes}
               userList={userList}
-              myRoutes={myRoutes} />}/>
+              myRoutes={myRoutes}
+              loginModalState={loginModalState}/>}/>
               <Route path="/list" render={()=> <List modalState={modalState} myRoutes={myRoutes} routes={routes} filteredList={filteredList}/>}/>
               <Route path ="/detailpage" exact component={DetailPage}/>
               <Route path ="/editmodal" exact component={EditModal}/>
@@ -51,6 +53,7 @@ const mapStateToProps = state => {
     myList: state.myList,
     filteredList: state.filteredList,
     modalState: state.modalState,
+    loginModalState: state.loginModalState,
     userList: state.userList
   }
 }

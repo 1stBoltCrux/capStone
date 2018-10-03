@@ -13,12 +13,11 @@ const userRef = firebase.database().ref('users')
 
 export function googleSignIn(){
   return function(dispatch){
-
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithRedirect(provider).then(function(result) {
       console.log(result);
     }).catch(function(error) {
-  console.log(error);
+      console.log(error);
     });
   }
 }
@@ -27,7 +26,7 @@ export function signInRedirectComplete(userList){
   return function(dispatch) {
 
     firebase.auth().getRedirectResult().then(function(result) {
-
+      
       let userIdArray = [];
       Object.keys(userList).forEach((userKey) => {
         userIdArray.push(userList[userKey].user.uid)
@@ -48,14 +47,7 @@ export function signInRedirectComplete(userList){
       }
 
     }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
+      console.log('NEW USER: ' + error);
     });
   }
 }
@@ -79,22 +71,6 @@ export function watchFireBaseFullListRef() {
   }
 }
 
-export function addUserRouteList(userList, myRoutes){
-  // console.log('addUserToureList --- ' + myRoutes);
-  // var user = firebase.auth().currentUser;
-  // if (user !== null){
-  //   myRoutes.forEach((route) =>{
-  //     let firebaseId = route.firebaseId
-  //     let newRef = userRef.child(user.uid)
-  //     let newestRef = newRef.child('user');
-  //     let finalRef = newestRef.child('userList')
-  //     finalRef.child(firebaseId).set({route})
-  //
-  //   })
-  // }
-
-}
-
 export function addListToFirebase(list){
   return {
     type: c.RECEIVED,
@@ -110,47 +86,29 @@ export function addUserListToFirebase(userList){
 }
 
 export function watchFireBaseMyListRef(){
-return async function(dispatch) {
-  let promise = new Promise((resolve, reject)=>{
-    setTimeout(()=>{
-      resolve(firebase.auth().currentUser)
-    }, 100)
-  })
-  let result = await promise;
+  return async function(dispatch) {
+    await firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        console.log(user);
+        dispatch(loginModalHandler())
+        let newRef = userRef.child(user.uid)
+        newRef.on('value', data => {
+          if (data.val()){
+            let myList = data.val().user.userList
+            dispatch(addMyListToFirebase(myList));
 
- await firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      let newRef = userRef.child(user.uid)
-      newRef.on('value', data => {
-        let myList = data.val().user.userList
-        dispatch(addMyListToFirebase(myList));
-        firebase.auth().onAuthStateChanged((user) => {
-          console.log(user);
-          dispatch(addMyListToFirebase)
+          }
         })
-      })
-    }
-  })
-  // let user = result;
-  // console.log(user);
-  // if (user !== null){
-    console.log(result);
-
-  // }
+      }
+    })
+  }
 }
 
+export function loginModalHandler(){
+  return {
+    type: c.HANDLE_LOGIN_MODAL
+  }
 }
-
-// export function watchFireBaseMyListRef(route){
-//   return function(dispatch) {
-//     myListRef.on('value', data => {
-//       let myList = data.val()
-//       console.log(myList);
-//       dispatch(addMyListToFirebase(myList))
-//       // addToList(route, myList)
-//     })
-//   }
-// }
 
 export function addMyListToFirebase(myList){
   return {
@@ -176,26 +134,12 @@ export function addToList(route, myList){
   myList.forEach((routeCheck) => {
     checkFireId.push(routeCheck.id)
   })
-
-
   if (checkFireId.includes(route.id) === false && user !== null){
-
-    // myList.forEach((route) =>{
-    //   let firebaseId = route.firebaseId
-      let newRef = userRef.child(user.uid)
-      let newestRef = newRef.child('user');
-      let finalRef = newestRef.child('userList')
-      finalRef.child(route.id).set(route)
-
-    // })
-
-    // myListRef.push(route);
-
-  } else {
-
+    let newRef = userRef.child(user.uid)
+    let newestRef = newRef.child('user');
+    let finalRef = newestRef.child('userList')
+    finalRef.child(route.id).set(route)
   }
-
-
   return {
     type: c.ADD_TO_LIST,
     route: route,
@@ -213,7 +157,7 @@ export function deleteFromFirebase(key, myRoutes){
     let finalRef = newestRef.child('userList')
     finalRef.child(key).remove()
 
-}
+  }
 }
 
 export function handleSubmitNotes(_note, key){
@@ -226,7 +170,7 @@ export function handleSubmitNotes(_note, key){
     finalRef.child(key).update({
       note: _note.value
     })
-}
+  }
 
   return {
     type: c.NOTES,
@@ -250,40 +194,16 @@ export function handleSubmitComplete(key, complete){
   }
 }
 
-// export default function makeCall() {
-//   let data;
-//   return dispatch => {
-//     fetch('https://www.mountainproject.com/data/get-routes-for-lat-lon?lat=45.567&lon=-122.211&maxDistance=1&maxResults=400&minDiff=5.6&maxDiff=5.13&key=200285890-fbff6471f00c42d4b58bbfed57cd6a12').then(
-//       response => response.json()
-//     ).then(function(json){
-//       data = json
-//       dispatch(makeCallAsync(data));
-//     })
-//   }
-// }
-//
-// function makeCallAsync(data){
-//   return{
-//     // type: c.RECEIVED,
-//     type: 'hooplah',
-//     payload: data
-//   }
-// }
-
-
-
-
-
- export function handleSubmitClick(_name, _type, _grade, routes) {
-   return {
-     type: c.FILTER,
-     payload: {
-       name: _name,
-       type: _type,
-       grade: _grade,
-       routes: routes
-     }
-   }
+export function handleSubmitClick(_name, _type, _grade, routes) {
+  return {
+    type: c.FILTER,
+    payload: {
+      name: _name,
+      type: _type,
+      grade: _grade,
+      routes: routes
+    }
+  }
 }
 
 export function emptyArray() {
@@ -293,11 +213,11 @@ export function emptyArray() {
 }
 
 export function handleSubmitRadio(event, grade, additionalGrade, key){
-    event.preventDefault();
-    if (additionalGrade === null){
-      additionalGrade = '';
-    }
-    if (grade !== null) {
+  event.preventDefault();
+  if (additionalGrade === null){
+    additionalGrade = '';
+  }
+  if (grade !== null) {
 
 
     const newGrade = grade + additionalGrade;
@@ -310,8 +230,8 @@ export function handleSubmitRadio(event, grade, additionalGrade, key){
         rating: newGrade
       })
     }
-}
-    return {
-      type: c.CHANGE_GRADE,
-    }
   }
+  return {
+    type: c.CHANGE_GRADE,
+  }
+}

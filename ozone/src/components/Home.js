@@ -4,7 +4,8 @@ import styles from './home.css';
 import { connect } from 'react-redux';
 import { handleSubmitClick } from './../actions'
 import { Link } from 'react-router-dom';
-import { googleSignIn, signInRedirectComplete, addUserRouteList, watchFireBaseMyListRef } from './../actions'
+import { googleSignIn, signInRedirectComplete, watchFireBaseMyListRef } from './../actions'
+import LoginModal from './LoginModal'
 
 
 
@@ -14,17 +15,19 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
-if (Object.keys(this.props.userList).length > 0 ) {
+if ( this.props.userList && Object.keys(this.props.userList).length > 0 ) {
   setTimeout(()=> {
     this.props.dispatch(signInRedirectComplete(this.props.userList))
-  }, 1000)
+  }, 5000)
+
+  } else {
 
   }
   // this.props.dispatch(watchFireBaseMyListRef())
 }
 
   render () {
-
+    console.log(this.props.userList);
     const { routes } = this.props;
 
     return (
@@ -59,8 +62,10 @@ if (Object.keys(this.props.userList).length > 0 ) {
 
         </div>
 
-    <button onClick={() => this.props.dispatch(googleSignIn())}>CLICK ME</button>
-    <button onClick={()=> this.props.dispatch(addUserRouteList())}>ClICK ME TO UPDATE USER ROUTE LIST</button>
+        <div className={styles.loginModalContainer}>
+          <LoginModal
+          loginModalState={this.props.loginModalState}/>
+        </div>
 
     </div>
     )
