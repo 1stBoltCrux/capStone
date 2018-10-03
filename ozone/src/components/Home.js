@@ -4,7 +4,7 @@ import styles from './home.css';
 import { connect } from 'react-redux';
 import { handleSubmitClick } from './../actions'
 import { Link } from 'react-router-dom';
-import { googleSignIn, signInRedirectComplete, watchFireBaseMyListRef, signInCheck, googleSignOut } from './../actions'
+import { googleSignIn, signInRedirectComplete, watchFireBaseMyListRef, signInCheck, googleSignOut, detailModal } from './../actions'
 import LoginModal from './LoginModal'
 
 
@@ -41,7 +41,7 @@ if ( this.props.userList && Object.keys(this.props.userList).length > 0 ) {
       <div  className={styles.homeWrapper}>
         <div className={styles.filters}>
           <div className={styles.filterRoute}>
-            <div className={styles.filterBox} id="filter-title"><p>Filter Routes</p></div>
+            <div className={styles.filterBox} id="filterTitle"><h3 style={{margin: 'auto'}}>Route Finder</h3></div>
 
             <div className={styles.filterBox}><p>name:</p><input type='text' value={undefined} ref={input => this._name = input}></input></div>
 
@@ -65,7 +65,10 @@ if ( this.props.userList && Object.keys(this.props.userList).length > 0 ) {
               <option value='Trad, Sport'>Mixed</option>
             </select></div>
           </div>
-          <div onClick={()=> this.props.dispatch(handleSubmitClick(this._name.value, this._type.value, this._grade.value, routes))} className={styles.filterRouteButton}><p>Filter Route List</p></div>
+          <Link to ="/list"><div onClick={()=> this.props.dispatch(detailModal(''))}>
+          <div onClick={()=> this.props.dispatch(handleSubmitClick(this._name.value, this._type.value, this._grade.value, routes))} className={styles.filterRouteButton}><p>Search Routes</p></div>
+        </div></Link>
+          <div style={{color: '#af4731', borderColor: '#af4731'}} className={styles.filterRouteButton} onClick={()=> this.props.dispatch(googleSignOut())}>Log Out</div>
 
         </div>
 

@@ -22,10 +22,6 @@
   margin-bottom: 3vh;
 }
 
-#filter-title {
-  color: #89DA2F;
-}
-
 .filterBox {
   padding: 0 15px 0 15px;
   height: 40px;
@@ -33,10 +29,6 @@
   justify-content: space-between;
   align-items: center;
   color: white;
-}
-
-.filterBox .title {
-  color: #89DA2F;
 }
 
 .filterRouteButton {
@@ -55,8 +47,9 @@
 .filterRouteButton:hover {
     animation: hoverScale .2s ease both;
     cursor:pointer;
-
 }
+
+
 
 @keyframes hoverScale {
   0% {
