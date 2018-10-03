@@ -4,7 +4,7 @@ import styles from './home.css';
 import { connect } from 'react-redux';
 import { handleSubmitClick } from './../actions'
 import { Link } from 'react-router-dom';
-import { googleSignIn, signInRedirectComplete, watchFireBaseMyListRef } from './../actions'
+import { googleSignIn, signInRedirectComplete, watchFireBaseMyListRef, signInCheck, googleSignOut } from './../actions'
 import LoginModal from './LoginModal'
 
 
@@ -15,11 +15,18 @@ class Home extends React.Component {
   }
 
   componentDidMount(){
+    if (this.props.loginModalState === true) {
+
+            this.props.dispatch(signInCheck())
+
+    }
+
+    console.log('firing');
 if ( this.props.userList && Object.keys(this.props.userList).length > 0 ) {
   setTimeout(()=> {
     this.props.dispatch(signInRedirectComplete(this.props.userList))
-  }, 5000)
-
+  }, 1000)
+// i set the timer down from 5000
   } else {
 
   }
@@ -27,7 +34,7 @@ if ( this.props.userList && Object.keys(this.props.userList).length > 0 ) {
 }
 
   render () {
-    console.log(this.props.userList);
+    console.log(this.props);
     const { routes } = this.props;
 
     return (
@@ -66,7 +73,6 @@ if ( this.props.userList && Object.keys(this.props.userList).length > 0 ) {
           <LoginModal
           loginModalState={this.props.loginModalState}/>
         </div>
-
     </div>
     )
   }

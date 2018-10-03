@@ -9,7 +9,6 @@ class List extends React.Component {
 
   render() {
     const { routes, filteredList } = this.props
-    console.log(routes);
     let routeCondition;
     if (routes) {
     routeCondition = routes.slice();

@@ -2,20 +2,34 @@ import constants from './../constants';
 import firebase from 'firebase';
 const { c, firebaseConfig } = constants;
 
-
-
 firebase.initializeApp(firebaseConfig);
 const fullListRef = firebase.database().ref('fullList');
 const myListRef = firebase.database().ref('myList');
 const userRef = firebase.database().ref('users')
 
+export function googleSignOut(){
+  return function(dispatch){
+    firebase.auth().signOut()
+  }
+}
 
+export function signInCheck(){
+  return function(dispatch){
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user);
+      if (!user) {
+        dispatch(openLoginModalHandler())
+      } else {
+        dispatch(closeLoginModalHandler())
+      }
+    })
+  }
+}
 
 export function googleSignIn(){
   return function(dispatch){
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithRedirect(provider).then(function(result) {
-      console.log(result);
     }).catch(function(error) {
       console.log(error);
     });
@@ -26,7 +40,6 @@ export function signInRedirectComplete(userList){
   return function(dispatch) {
 
     firebase.auth().getRedirectResult().then(function(result) {
-      
       let userIdArray = [];
       Object.keys(userList).forEach((userKey) => {
         userIdArray.push(userList[userKey].user.uid)
@@ -90,7 +103,7 @@ export function watchFireBaseMyListRef(){
     await firebase.auth().onAuthStateChanged(user => {
       if (user) {
         console.log(user);
-        dispatch(loginModalHandler())
+        // dispatch(loginModalHandler())
         let newRef = userRef.child(user.uid)
         newRef.on('value', data => {
           if (data.val()){
@@ -104,10 +117,17 @@ export function watchFireBaseMyListRef(){
   }
 }
 
-export function loginModalHandler(){
+export function openLoginModalHandler(){
   return {
-    type: c.HANDLE_LOGIN_MODAL
+    type: c.OPEN_LOGIN_MODAL,
   }
+}
+
+export function closeLoginModalHandler(){
+  return {
+    type: c.CLOSE_LOGIN_MODAL,
+  }
+
 }
 
 export function addMyListToFirebase(myList){
@@ -124,11 +144,7 @@ export function detailModal(routeId){
   }
 }
 
-
-
 export function addToList(route, myList){
-  console.log(route);
-  console.log(myList);
   var user = firebase.auth().currentUser;
   let checkFireId = [];
   myList.forEach((routeCheck) => {
@@ -148,15 +164,12 @@ export function addToList(route, myList){
 }
 
 export function deleteFromFirebase(key, myRoutes){
-  console.log(key);
-
   var user = firebase.auth().currentUser;
   if (user !== null){
     let newRef = userRef.child(user.uid)
     let newestRef = newRef.child('user');
     let finalRef = newestRef.child('userList')
     finalRef.child(key).remove()
-
   }
 }
 

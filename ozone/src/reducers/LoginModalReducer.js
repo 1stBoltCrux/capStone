@@ -4,12 +4,11 @@ const { c } = constants
 const LoginModalReducer = (state = true, action) => {
   switch (action.type) {
 
-    case c.HANDLE_LOGIN_MODAL:
-      return {
-        loginModalOpen: false
-      }
-    case 'HIDE_MODAL':
-      return state
+    case 'OPEN_LOGIN_MODAL':
+      return false
+
+    case 'CLOSE_LOGIN_MODAL':
+      return true
     default:
       return state
   }

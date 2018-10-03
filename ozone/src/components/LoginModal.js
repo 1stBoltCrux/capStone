@@ -1,16 +1,23 @@
 import React, {Component} from 'react';
 import styles from './loginmodal.css';
-import { googleSignIn } from './../actions'
+import { googleSignIn, googleSignOut } from './../actions'
 import { connect } from 'react-redux'
+import logo from './../imgs/zone-logo.svg'
 
 class LoginModal extends Component {
 
   render(){
-    console.log(this.props.loginModalState);
-    if (this.props.loginModalState) {
+    if (this.props.loginModalState === false) {
       return(
-        <div>
-            <button onClick={() => this.props.dispatch(googleSignIn())}>CLICK ME</button>
+        <div className={styles.LoginModalBackdrop}>
+          <div className={styles.loginModalOverlay}>
+            <div className={styles.loginModalContent}>
+                <div className={styles.buttonContainer}>
+                <div className={styles.loginButton} onClick={() => this.props.dispatch(googleSignIn())}>Login</div>
+                <img className={styles.logoImage} src={logo}/>
+              </div>
+            </div>
+          </div>
         </div>
       )
     } else {
