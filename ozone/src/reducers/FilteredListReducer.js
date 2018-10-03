@@ -11,7 +11,7 @@ const FilteredListReducer = (state = {}, action) => {
         if (parseFloat(grade) === route.starVotes && route.type === type) {
           resultArray.push(route);
           return;
-        } else if ( name === route.name && !grade && !type){
+        } else if ( (name === route.name.toLowerCase() || route.name.toLowerCase().includes(name) )&& !grade && !type){
           resultArray.push(route);
           return;
         } else if (parseFloat(grade) === route.starVotes && !type && !name) {

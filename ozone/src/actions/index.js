@@ -208,6 +208,7 @@ export function handleSubmitComplete(key, complete){
 }
 
 export function handleSubmitClick(_name, _type, _grade, routes) {
+  console.log(_name);
   return {
     type: c.FILTER,
     payload: {

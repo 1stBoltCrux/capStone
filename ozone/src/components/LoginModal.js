@@ -13,7 +13,7 @@ class LoginModal extends Component {
           <div className={styles.loginModalOverlay}>
             <div className={styles.loginModalContent}>
                 <div className={styles.buttonContainer}>
-                <div className={styles.loginButton} onClick={() => this.props.dispatch(googleSignIn())}>Login</div>
+                <div className={styles.loginButton} onClick={() => this.props.dispatch(googleSignIn())}>Login with Google</div>
                 <img className={styles.logoImage} src={logo}/>
               </div>
             </div>
@@ -23,7 +23,6 @@ class LoginModal extends Component {
     } else {
       return null
     }
-
   }
 }
 
